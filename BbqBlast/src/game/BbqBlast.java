@@ -12,9 +12,10 @@ import java.awt.event.*;
 
 class BbqBlast extends Game {
 	static int counter = 0;
+	static int score = 0;
 
   public BbqBlast() {
-    super("YourGameName!",600,600);
+    super("Bbq Blast!",600,600);
     this.setFocusable(true);
 	this.requestFocus();
   }
@@ -29,10 +30,13 @@ class BbqBlast extends Game {
     	counter++;
     	brush.setColor(Color.white);
     	brush.drawString("Counter is " + counter, 10, 10);
+    	
   }
   
 	public static void main (String[] args) {
    		BbqBlast a = new BbqBlast();
+   		Player Ketchup = new Player(100, 100, 50);
+   		
 		a.repaint();
   }
 }
