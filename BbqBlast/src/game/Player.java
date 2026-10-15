@@ -1,21 +1,23 @@
 package game;
 
 import java.util.ArrayList;
-
 import java.util.List;
+import java.awt.*;
 
 public class Player extends Entity{
 	private int angle;
-	private static Point[] shape = {new Point(25,0), new Point(35,40), new Point(50,40), 
+	public static final Point[] shape = {new Point(25,0), new Point(35,40), new Point(50,40), 
             						new Point(50,100), new Point(0,100), new Point(0,40),
             						new Point(15,40)};
 	
-	private static ArrayList<Polygon> sprite = new ArrayList<>(List.of(
-			new Polygon(shape, new Point(25,50), 90)));
+	public static Polygon sprite = new Polygon(shape, new Point(275,200), 0);
+			
+			
 	
-	public Player(int health, int height, int width) {
+	public Player(int health, int height, int width){
 		super(health, height, width, sprite);
-		this.angle = 90;
+		this.angle = 0;
+		
 	}
 	
 	public int getAngle() {
@@ -23,10 +25,9 @@ public class Player extends Entity{
 	}
 	
 	public void rotate(int angle) {
-		for(Polygon shape : sprite) {
-			shape.rotate(angle);
-		}
+		sprite.rotate(angle);
 		this.angle += angle;
 		
 	}
+	
 }

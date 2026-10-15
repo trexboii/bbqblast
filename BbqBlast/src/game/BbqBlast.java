@@ -13,7 +13,8 @@ import java.awt.event.*;
 class BbqBlast extends Game {
 	static int counter = 0;
 	static int score = 0;
-
+	static Player Ketchup = new Player(100, 100, 50);
+	
   public BbqBlast() {
     super("Bbq Blast!",600,600);
     this.setFocusable(true);
@@ -30,12 +31,15 @@ class BbqBlast extends Game {
     	counter++;
     	brush.setColor(Color.white);
     	brush.drawString("Counter is " + counter, 10, 10);
+    	brush.setColor(Color.red);
+    	Ketchup.rotate(1);
+    	brush.fillPolygon(Ketchup.getXCoordinates(), Ketchup.getYCoordinates(), Ketchup.getNumPoints());
     	
   }
   
 	public static void main (String[] args) {
    		BbqBlast a = new BbqBlast();
-   		Player Ketchup = new Player(100, 100, 50);
+
    		
 		a.repaint();
   }
