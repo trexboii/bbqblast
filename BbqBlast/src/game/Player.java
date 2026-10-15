@@ -9,12 +9,13 @@ public class Player extends Entity{
 	private static Point[] shape = {new Point(25,0), new Point(35,40), new Point(50,40), 
             						new Point(50,100), new Point(0,100), new Point(0,40),
             						new Point(15,40)};
-	
-	private static ArrayList<Polygon> sprite = new ArrayList<>(List.of(
-			new Polygon(shape, new Point(25,50), 90)));
+	private static Point inPosition = new Point(0,0);
+	private static double inRotation = 0.0;
 	
 	public Player(int health, int height, int width) {
-		super(health, height, width, sprite);
+		super(health, height, width,shape,inPosition,inRotation);
+		this.inPosition = inPosition;
+		this.inRotation = inRotation;
 		this.angle = 90;
 	}
 	
@@ -23,10 +24,6 @@ public class Player extends Entity{
 	}
 	
 	public void rotate(int angle) {
-		for(Polygon shape : sprite) {
-			shape.rotate(angle);
-		}
-		this.angle += angle;
-		
+		//TODO unimplemented. take input angle 
 	}
 }
