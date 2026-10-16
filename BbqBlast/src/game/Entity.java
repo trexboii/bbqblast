@@ -1,6 +1,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class Entity extends Polygon{
 
@@ -31,6 +32,22 @@ public abstract class Entity extends Polygon{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	
+	public int[] getXCoordinates() {
+		int [] xCoords = Arrays.stream(super.getPoints())
+				.mapToInt(p -> (int) p.getX())
+				.toArray();
+		return xCoords;
+	}
+	public int[] getYCoordinates() {
+		return Arrays.stream(super.getPoints())
+				.mapToInt(p -> (int) p.getY())
+				.toArray();
+	}
+	public int getNumPoints() {
+		int count = 0;
+		for(Point p : super.getPoints()) {
+			count++;
+		}
+		return count;
+	}
 }
