@@ -5,25 +5,14 @@ import java.util.Arrays;
 
 public abstract class Entity extends Polygon{
 
-	protected int health, width, height;
+	protected int health;
+	protected double height, width;
 	
+	public static final int boardMin = 0, boardMax = 600;
 	
-	public static final int topBound = 0, bottomBound = 600, leftBound = 0, rightBound = 600;
-	
-	public Entity(int health, int height, int width, 
-			Point[] inShape, Point inPosition,double inRotation) {
-		super(inShape,inPosition, inRotation);
+	public Entity(int health, Point[] inShape, Point inPosition,double inRotation) {
+		super(inShape, inPosition, inRotation);
 		this.health = health;
-		this.width = width;
-		this.height = height;
-	}
-	public int getWidth() {
-		return width;
-	}
-
-	
-	public int getHeight() {
-		return height;
 	}
 
 	public void move(Point p) {}
@@ -33,10 +22,10 @@ public abstract class Entity extends Polygon{
 		return false;
 	}
 	public int[] getXCoordinates() {
-		int [] xCoords = Arrays.stream(super.getPoints())
+		return Arrays.stream(super.getPoints())
 				.mapToInt(p -> (int) p.getX())
 				.toArray();
-		return xCoords;
+
 	}
 	public int[] getYCoordinates() {
 		return Arrays.stream(super.getPoints())
@@ -49,5 +38,20 @@ public abstract class Entity extends Polygon{
 			count++;
 		}
 		return count;
+	}
+	
+	
+	public boolean isXOutOfBounds(double x) {
+		if (x > boardMax - width|| x < boardMin) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isYOutOfBounds(double y) {
+		if (y > boardMax - height|| y < boardMin) {
+			return true;
+		}
+		return false;
 	}
 }
