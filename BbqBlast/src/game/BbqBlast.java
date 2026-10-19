@@ -19,6 +19,7 @@ class BbqBlast extends Game {
     super("Bbq Blast!",600,600);
     this.setFocusable(true);
 	this.requestFocus();
+	this.addKeyListener(Ketchup);
   }
   
 	public void paint(Graphics brush) {
@@ -32,6 +33,7 @@ class BbqBlast extends Game {
     	brush.setColor(Color.white);
     	brush.drawString("Counter is " + counter, 10, 10);
     	brush.setColor(Color.red);
+    	Ketchup.move();
     	brush.fillPolygon(Ketchup.getXCoordinates(), Ketchup.getYCoordinates(), Ketchup.getNumPoints());
     	System.out.println(Ketchup.position.getX() + " " + Ketchup.position.getY());
     	

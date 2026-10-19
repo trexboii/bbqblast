@@ -15,10 +15,9 @@ public abstract class Entity extends Polygon{
 		this.health = health;
 	}
 
-	public void move(Point p) {}
+	abstract public void move();
 	
 	public boolean checkCollision(Entity other) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	public int[] getXCoordinates() {
