@@ -127,8 +127,5 @@ public class Player extends Entity implements KeyListener{
 		public void delete() {
 			
 		}
-	//public class Laser implements Projectile {
-		
-	//}
-
+	}
 }

@@ -22,7 +22,6 @@ class BbqBlast extends Game {
 	static int counter = 0;
 	static int score = 0;
 	Player Ketchup = new Player(new Point(250,200),0.0);
-	static Player Ketchup = new Player(100,new Point(250,200),0.0);
 	private Map<String,Bun> buns = new HashMap<>();
 	private int bunNumber=0;
 	private ArrayList<Double> yCoorsLeft = new ArrayList<>(Arrays.asList(0.0,75.0,150.0,
@@ -72,8 +71,6 @@ class BbqBlast extends Game {
     	if(Ketchup.lasers.size() > 0) {
     		for (Laser l1 : Ketchup.lasers) {
     			brush.fillPolygon(l1.getXCoordinates(), l1.getYCoordinates(), l1.getNumPoints());
-    			System.out.println(l1.position.getX());
-    			System.out.println(l1.position.getY());
     		}
     	}
     	Ketchup.moveLasers();
@@ -83,6 +80,7 @@ class BbqBlast extends Game {
     	brush.drawString("Ketchup", (int)Ketchup.position.getX()+2, (int)Ketchup.position.getY()+70);
     	brush.drawPolyline(Ketchup.getXCoordinates(), Ketchup.getYCoordinates(), Ketchup.getNumPoints());
     	brush.setColor(Color.YELLOW);
+    	
     	if(counter%200==0){
     		double side;
     		double yCor;
@@ -92,7 +90,7 @@ class BbqBlast extends Game {
     			yCor = yCoorsLeft.get(rand);
     			yCoorsLeft.remove(rand);
     			usedYCoorsLeft.add(yCor);
-    			buns.put("bun"+bunNumber, new Bun(100,new Point(side,yCor),0));
+    			buns.put("bun"+bunNumber, new Bun(new Point(side,yCor),0));
         		bunNumber++;
     			
     		}else if(yCoorsRight.size()>0){
@@ -101,13 +99,12 @@ class BbqBlast extends Game {
     			yCor = yCoorsRight.get(rand);
     			yCoorsRight.remove(rand);
     			usedYCoorsRight.add(yCor);
-    			buns.put("bun"+bunNumber, new Bun(100,new Point(side,yCor),180.0));
+    			buns.put("bun"+bunNumber, new Bun(new Point(side,yCor),180.0));
         		bunNumber++;
     		}
     		ArrayList<String> keys = new ArrayList<>(buns.keySet());
     		int rand = ThreadLocalRandom.current().nextInt(0,keys.size());
     		String key = keys.get(rand);
-    		System.out.println(key);
     		buns.get(key).dog.launch();
     	}
     	for (Bun b : buns.values()) {
