@@ -4,8 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-import game.Player.Laser;
-
 public class Player extends Entity implements KeyListener{
 
 	public static final Point[] SHAPE = {new Point(25,0), new Point(35,40), new Point(50,40), 
@@ -16,7 +14,7 @@ public class Player extends Entity implements KeyListener{
 	
 	public boolean moveForward = false, moveBack = false, turnRight = false, turnLeft = false;
 	
-	public ArrayList<Player.Laser> lasers;
+	public ArrayList<Laser> lasers;
 
 	public Player(Point inPosition, double inRotation) {
 		super(SHAPE,inPosition,inRotation);
@@ -58,12 +56,15 @@ public class Player extends Entity implements KeyListener{
 		
 		returnToScreen();
 	}
+	
+	public void moveLasers() {
+		for (Laser l1 : lasers) {
+			l1.move();
+		}
+	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
-			this.lasers.add(this.new Laser());
-		}
 		
 	}
 
@@ -99,21 +100,27 @@ public class Player extends Entity implements KeyListener{
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			turnRight = false;
 		}
+		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+			Laser l1 = new Laser(position, rotation);
+			lasers.add(l1);
+		}
 	}
 	
 	public class Laser extends Entity implements Projectile {
-		public static final Point[] SHAPE = {new Point(0,0), new Point(0,25)};
+		public static final Point[] SHAPE = {new Point(0,0), new Point(5,25), new Point(-5,25)};
 		private int speed;
 		
-		public Laser() {
-			super(SHAPE, Player.this.position, Player.this.rotation);
+		public Laser(Point position, double rotation) {
+			super(SHAPE, position.clone(), rotation);
 			speed = 10;
+			height = 25;
+			width = 3;
+			super.position.setX(super.position.getX()+20);
+			super.position.setY(super.position.getY()+50);
 		}
 		public void move() {
-			position.setX(position.getX()+speed*(Math.sin(Math.toRadians(rotation))));
-			position.setY(position.getY()-speed*(Math.cos(Math.toRadians(rotation))));
-			position.setX(position.getX()-speed*(Math.sin(Math.toRadians(rotation))));
-			position.setY(position.getY()+speed*(Math.cos(Math.toRadians(rotation))));
+			this.position.setX(this.position.getX()+speed*(Math.sin(Math.toRadians(rotation))));
+			this.position.setY(this.position.getY()-speed*(Math.cos(Math.toRadians(rotation))));
 		}
 
 		@Override

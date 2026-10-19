@@ -31,6 +31,7 @@ public abstract class Entity extends Polygon{
 				.mapToInt(p -> (int) p.getY())
 				.toArray();
 	}
+	
 	public int getNumPoints() {
 		int count = 0;
 		for(Point p : super.getPoints()) {
@@ -41,14 +42,14 @@ public abstract class Entity extends Polygon{
 	
 	
 	public boolean isXOutOfBounds(double x) {
-		if (x > boardMax - width|| x < boardMin) {
+		if (x > boardMax|| x < boardMin) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean isYOutOfBounds(double y) {
-		if (y > boardMax - height|| y < boardMin) {
+		if (y > boardMax|| y < boardMin) {
 			return true;
 		}
 		return false;

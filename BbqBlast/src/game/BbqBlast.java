@@ -31,7 +31,7 @@ class BbqBlast extends Game {
 		brush.setFont(myFont);
     	brush.setColor(Color.white);
     	brush.fillRect(0,0,width,height);
-    	brush.setColor(Color.red);
+    	brush.setColor(Color.black);
     	for (int i = 0 ; i <= 600 ; i += 100) {
     		for (int j = 0 ; j <= 600 ; j += 100) {
     			brush.fillRect(i, j, 50, 50);
@@ -53,16 +53,19 @@ class BbqBlast extends Game {
     	brush.setColor(Color.red);
     	Ketchup.move();
     	brush2.setStroke(new BasicStroke(3.0f));
-    	for(Laser l1 : Ketchup.lasers) {
-    		l1.move();
-    		brush.drawPolyline(l1.getXCoordinates(), l1.getYCoordinates(), l1.getNumPoints());
+    	if(Ketchup.lasers.size() > 0) {
+    		for (Laser l1 : Ketchup.lasers) {
+    			brush.fillPolygon(l1.getXCoordinates(), l1.getYCoordinates(), l1.getNumPoints());
+    			System.out.println(l1.position.getX());
+    			System.out.println(l1.position.getY());
+    		}
     	}
+    	Ketchup.moveLasers();
     	brush.fillPolygon(Ketchup.getXCoordinates(), Ketchup.getYCoordinates(), Ketchup.getNumPoints());
     	brush.setColor(Color.black);
     	brush.setFont(myFont2);
     	brush.drawString("Ketchup", (int)Ketchup.position.getX()+2, (int)Ketchup.position.getY()+70);
     	brush.drawPolyline(Ketchup.getXCoordinates(), Ketchup.getYCoordinates(), Ketchup.getNumPoints());
-    	System.out.println(Ketchup.lasers);
   }
   
 	public static void main (String[] args) {
