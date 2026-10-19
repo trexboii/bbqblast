@@ -8,16 +8,19 @@ public class Player extends Entity implements KeyListener{
 
 	public static final Point[] SHAPE = {new Point(25,0), new Point(35,40), new Point(50,40), 
             						new Point(50,100), new Point(0,100), new Point(0,40),
-            						new Point(15,40)};
+            						new Point(15,40), new Point(25,0)};
 	
 	public static final double STEP_SIZE = 2;
 	
 	public boolean moveForward = false, moveBack = false, turnRight = false, turnLeft = false;
+	
+	public ArrayList<Laser> lasers;
 
-	public Player(int health, Point inPosition, double inRotation) {
-		super(health,SHAPE,inPosition,inRotation);
+	public Player(Point inPosition, double inRotation) {
+		super(SHAPE,inPosition,inRotation);
 		height = 140;
 		width = 65;
+		lasers = new ArrayList<>();
 	}
 	
 	public void returnToScreen() {
@@ -37,10 +40,10 @@ public class Player extends Entity implements KeyListener{
 	
 	public void move() {
 		if(turnRight) {
-			rotate(3);
+			rotate(4);
 		}
 		if(turnLeft) {
-			rotate(-3);
+			rotate(-4);
 		}
 		if(moveForward ) {
 			position.setX(position.getX()+5*(Math.sin(Math.toRadians(rotation))));
@@ -53,10 +56,15 @@ public class Player extends Entity implements KeyListener{
 		
 		returnToScreen();
 	}
+	
+	public void moveLasers() {
+		for (Laser l1 : lasers) {
+			l1.move();
+		}
+	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -92,8 +100,33 @@ public class Player extends Entity implements KeyListener{
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			turnRight = false;
 		}
+		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+			Laser l1 = new Laser(position, rotation);
+			lasers.add(l1);
+		}
 	}
 	
+	public class Laser extends Entity implements Projectile {
+		public static final Point[] SHAPE = {new Point(0,0), new Point(5,25), new Point(-5,25)};
+		private int speed;
+		
+		public Laser(Point position, double rotation) {
+			super(SHAPE, position.clone(), rotation);
+			speed = 10;
+			height = 25;
+			width = 3;
+			super.position.setX(super.position.getX()+20);
+			super.position.setY(super.position.getY()+50);
+		}
+		public void move() {
+			this.position.setX(this.position.getX()+speed*(Math.sin(Math.toRadians(rotation))));
+			this.position.setY(this.position.getY()-speed*(Math.cos(Math.toRadians(rotation))));
+		}
+
+		@Override
+		public void delete() {
+			
+		}
 	//public class Laser implements Projectile {
 		
 	//}

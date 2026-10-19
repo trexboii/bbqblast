@@ -16,9 +16,12 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import game.Player.Laser;
+
 class BbqBlast extends Game {
 	static int counter = 0;
 	static int score = 0;
+	Player Ketchup = new Player(new Point(250,200),0.0);
 	static Player Ketchup = new Player(100,new Point(250,200),0.0);
 	private Map<String,Bun> buns = new HashMap<>();
 	private int bunNumber=0;
@@ -38,18 +41,47 @@ class BbqBlast extends Game {
   }
   
 	public void paint(Graphics brush) {
-    	brush.setColor(Color.black);
+		Graphics2D brush2 = (Graphics2D) brush;
+		Font myFont = new Font("Arial", Font.BOLD, 24);
+		Font myFont2 = new Font("Arial", Font.BOLD, 12);
+		brush.setFont(myFont);
+    	brush.setColor(Color.white);
     	brush.fillRect(0,0,width,height);
+    	brush.setColor(Color.black);
+    	for (int i = 0 ; i <= 600 ; i += 100) {
+    		for (int j = 0 ; j <= 600 ; j += 100) {
+    			brush.fillRect(i, j, 50, 50);
+    		}
+    	}
+    	
+    	for (int i = 50 ; i <= 600 ; i += 100) {
+    		for (int j = 50 ; j <= 600 ; j += 100) {
+    			brush.fillRect(i, j, 50, 50);
+    		}
+    	}
     	
     	// sample code for printing message for debugging
     	// counter is incremented and this message printed
     	// each time the canvas is repainted
     	counter++;
-    	brush.setColor(Color.white);
-    	brush.drawString("Counter is " + counter, 10, 10);
+    	brush.setColor(Color.black);
+    	brush.drawString("Counter is " + counter, 10, 30);
     	brush.setColor(Color.red);
     	Ketchup.move();
+    	brush2.setStroke(new BasicStroke(3.0f));
+    	if(Ketchup.lasers.size() > 0) {
+    		for (Laser l1 : Ketchup.lasers) {
+    			brush.fillPolygon(l1.getXCoordinates(), l1.getYCoordinates(), l1.getNumPoints());
+    			System.out.println(l1.position.getX());
+    			System.out.println(l1.position.getY());
+    		}
+    	}
+    	Ketchup.moveLasers();
     	brush.fillPolygon(Ketchup.getXCoordinates(), Ketchup.getYCoordinates(), Ketchup.getNumPoints());
+    	brush.setColor(Color.black);
+    	brush.setFont(myFont2);
+    	brush.drawString("Ketchup", (int)Ketchup.position.getX()+2, (int)Ketchup.position.getY()+70);
+    	brush.drawPolyline(Ketchup.getXCoordinates(), Ketchup.getYCoordinates(), Ketchup.getNumPoints());
     	brush.setColor(Color.YELLOW);
     	if(counter%200==0){
     		double side;
