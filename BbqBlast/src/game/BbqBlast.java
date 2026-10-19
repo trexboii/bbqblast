@@ -9,11 +9,26 @@ NOTE: This class is the metaphorical "main method" of your program,
 */
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 class BbqBlast extends Game {
 	static int counter = 0;
 	static int score = 0;
 	static Player Ketchup = new Player(100,new Point(250,200),0.0);
+	private Map<String,Bun> buns = new HashMap<>();
+	private int bunNumber=0;
+	private ArrayList<Double> yCoorsLeft = new ArrayList<>(Arrays.asList(0.0,75.0,150.0,
+			225.0,300.0,375.0,440.0,500.0));
+	private ArrayList<Double> usedYCoorsLeft = new ArrayList<>();
+	private ArrayList<Double> yCoorsRight = new ArrayList<>(Arrays.asList(0.0,75.0,150.0,
+			225.0,300.0,375.0,440.0,500.0));
+	private ArrayList<Double> usedYCoorsRight = new ArrayList<>();
+	Random random = new Random();
 	
   public BbqBlast() {
     super("Bbq Blast!",600,600);
@@ -35,7 +50,43 @@ class BbqBlast extends Game {
     	brush.setColor(Color.red);
     	Ketchup.move();
     	brush.fillPolygon(Ketchup.getXCoordinates(), Ketchup.getYCoordinates(), Ketchup.getNumPoints());
-    	System.out.println(Ketchup.position.getX() + " " + Ketchup.position.getY());
+    	brush.setColor(Color.YELLOW);
+    	if(counter%200==0){
+    		double side;
+    		double yCor;
+    		if(random.nextDouble()>0.5 && yCoorsLeft.size()>0) {
+    			side = 0.0;
+    			int rand = ThreadLocalRandom.current().nextInt(0,yCoorsLeft.size());
+    			yCor = yCoorsLeft.get(rand);
+    			yCoorsLeft.remove(rand);
+    			usedYCoorsLeft.add(yCor);
+    			buns.put("bun"+bunNumber, new Bun(100,new Point(side,yCor),0));
+        		bunNumber++;
+    			
+    		}else if(yCoorsRight.size()>0){
+    			side = 460;
+    			int rand = ThreadLocalRandom.current().nextInt(0,yCoorsRight.size());
+    			yCor = yCoorsRight.get(rand);
+    			yCoorsRight.remove(rand);
+    			usedYCoorsRight.add(yCor);
+    			buns.put("bun"+bunNumber, new Bun(100,new Point(side,yCor),180.0));
+        		bunNumber++;
+    		}
+    		ArrayList<String> keys = new ArrayList<>(buns.keySet());
+    		int rand = ThreadLocalRandom.current().nextInt(0,keys.size());
+    		String key = keys.get(rand);
+    		System.out.println(key);
+    		buns.get(key).dog.launch();
+    	}
+    	for (Bun b : buns.values()) {
+    		brush.setColor(Color.YELLOW);
+    		brush.fillPolygon(b.getXCoordinates(),b.getYCoordinates(),b.getNumPoints());
+    		brush.setColor(Color.RED);
+    		brush.fillPolygon(b.getDogXCoordinates(),
+    				b.getDogYCoordinates(),b.getDogNumPoints());
+    		b.dog.move();
+    	}
+    	
     	
   }
   

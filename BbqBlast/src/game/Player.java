@@ -94,8 +94,8 @@ public class Player extends Entity implements KeyListener{
 		}
 	}
 	
-	public class Laser implements Projectile {
+	//public class Laser implements Projectile {
 		
-	}
+	//}
 
 }
