@@ -5,14 +5,14 @@ import java.util.Arrays;
 
 public abstract class Entity extends Polygon{
 
-	protected int health;
+	
 	protected double height, width;
 	
 	public static final int boardMin = 0, boardMax = 600;
 	
-	public Entity(int health, Point[] inShape, Point inPosition,double inRotation) {
+	public Entity(Point[] inShape, Point inPosition,double inRotation) {
 		super(inShape, inPosition, inRotation);
-		this.health = health;
+		
 	}
 
 	abstract public void move();
