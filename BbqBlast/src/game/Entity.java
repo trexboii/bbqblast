@@ -14,8 +14,6 @@ public abstract class Entity extends Polygon{
 		super(inShape, inPosition, inRotation);
 		
 	}
-
-	abstract public void move();
 	
 	public boolean checkCollision(Entity other) {
 		return false;
@@ -24,7 +22,6 @@ public abstract class Entity extends Polygon{
 		return Arrays.stream(super.getPoints())
 				.mapToInt(p -> (int) p.getX())
 				.toArray();
-
 	}
 	public int[] getYCoordinates() {
 		return Arrays.stream(super.getPoints())
