@@ -12,10 +12,10 @@ public class Bun extends Entity{
 		};
 	public HotDog dog;
 	private final double SPEED = 8;
-	public Bun(int health, Point inPosition, double inRotation) {
-		super(health,SHAPE,inPosition,inRotation);
+	public Bun(Point inPosition, double inRotation) {
+		super(SHAPE,inPosition,inRotation);
 		Point dogPos = new Point(inPosition.getX()+10,inPosition.getY()+12);
-		dog = new HotDog(health,dogPos,inRotation);
+		dog = new HotDog(dogPos,inRotation);
 		height = 140;
 		width = 65;
 		startingY = inPosition.getY();
@@ -38,14 +38,14 @@ public class Bun extends Entity{
 	public int getDogNumPoints() {
 		return dog.getNumPoints();
 	}
-	class HotDog extends Entity{
+	class HotDog extends Entity implements Projectile{
 		private boolean launch;
 		public static final Point[] SHAPE = {
 				new Point(12, 12), new Point(112, 12),
 			    new Point(112, 37), new Point(12, 37)
 			};
-		public HotDog(int health, Point inPosition, double inRotation) {
-			super(health,SHAPE,inPosition,inRotation);
+		public HotDog(Point inPosition, double inRotation) {
+			super(SHAPE,inPosition,inRotation);
 			height = 140;
 			width = 65;
 		}
@@ -64,9 +64,7 @@ public class Bun extends Entity{
 		public void move() {
 			if(launch && isOnScreen()) {
 				double currX = this.position.getX();
-				System.out.println(startingX);
 				if(startingX==0.0) {
-					System.out.println("got here");
 					this.position.setX(currX+SPEED);
 					currX+=SPEED;
 				}else {
@@ -78,6 +76,11 @@ public class Bun extends Entity{
 				launch = false;
 				reset();
 			}
+		}
+		
+		public void delete() {
+			
+			
 		}
 		
 	}
