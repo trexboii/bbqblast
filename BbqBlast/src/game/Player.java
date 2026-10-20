@@ -3,18 +3,21 @@ package game;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 
-public class Player extends Entity implements KeyListener{
+public class Player extends Entity implements KeyListener, Moving{
 
-	public static final Point[] SHAPE = {new Point(25,0), new Point(35,40), new Point(50,40), 
-            						new Point(50,100), new Point(0,100), new Point(0,40),
-            						new Point(15,40), new Point(25,0)};
+	public static final Point[] SHAPE = {new Point(25,0), new Point(35,40), new Point(50,40),
+									new Point(50,70), new Point(50,100),
+									new Point(25,100), new Point(0,100), 
+									new Point(0, 70), new Point(0,40), 
+									new Point(15,40), new Point(25,0)};
 	
 	public static final double STEP_SIZE = 2;
 	
 	public boolean moveForward = false, moveBack = false, turnRight = false, turnLeft = false;
 	
-	public ArrayList<Laser> lasers;
+	public static ArrayList<Laser> lasers;
 
 	public Player(Point inPosition, double inRotation) {
 		super(SHAPE,inPosition,inRotation);
@@ -57,9 +60,15 @@ public class Player extends Entity implements KeyListener{
 		returnToScreen();
 	}
 	
+
 	public void moveLasers() {
-		for (Laser l1 : lasers) {
-			l1.move();
+		Iterator<Laser> it = lasers.iterator();
+		while (it.hasNext()) {
+			Laser l1 = it.next();
+        	l1.move();
+        	if (l1.isOutOfBounds()) {
+            it.remove();
+        	}
 		}
 	}
 
@@ -106,7 +115,7 @@ public class Player extends Entity implements KeyListener{
 		}
 	}
 	
-	public class Laser extends Entity implements Projectile {
+	public class Laser extends Entity implements Moving {
 		public static final Point[] SHAPE = {new Point(0,0), new Point(5,25), new Point(-5,25)};
 		private int speed;
 		
@@ -122,10 +131,10 @@ public class Player extends Entity implements KeyListener{
 			this.position.setX(this.position.getX()+speed*(Math.sin(Math.toRadians(rotation))));
 			this.position.setY(this.position.getY()-speed*(Math.cos(Math.toRadians(rotation))));
 		}
-
-		@Override
-		public void delete() {
-			
+		
+		public boolean isOutOfBounds() {
+		    return Entity.isXOutOfBounds(position.getX())
+		        || Entity.isYOutOfBounds(position.getY());
 		}
 	}
 }

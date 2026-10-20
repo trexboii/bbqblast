@@ -15,9 +15,6 @@ public abstract class Entity extends Polygon{
 		
 	}
 	
-	public boolean checkCollision(Entity other) {
-		return false;
-	}
 	public int[] getXCoordinates() {
 		return Arrays.stream(super.getPoints())
 				.mapToInt(p -> (int) p.getX())
@@ -38,14 +35,14 @@ public abstract class Entity extends Polygon{
 	}
 	
 	
-	public boolean isXOutOfBounds(double x) {
+	public static boolean isXOutOfBounds(double x) {
 		if (x > boardMax|| x < boardMin) {
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean isYOutOfBounds(double y) {
+	public static boolean isYOutOfBounds(double y) {
 		if (y > boardMax|| y < boardMin) {
 			return true;
 		}
