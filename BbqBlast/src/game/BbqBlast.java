@@ -71,8 +71,7 @@ class BbqBlast extends Game {
     	brush2.setStroke(new BasicStroke(3.0f));
     	if(Player.lasers.size() > 0) {
     		for (Laser l1 : Player.lasers) {
-    			brush.fillPolygon(l1.getXCoordinates(), l1.getYCoordinates(), l1.getNumPoints());
-    			l1.isOutOfBounds();
+    			brush.fillPolygon(l1.getXCoordinates(), l1.getYCoordinates(), l1.getNumPoints());  
     		}
     	}
     	Ketchup.moveLasers();
