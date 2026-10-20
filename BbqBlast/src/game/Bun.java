@@ -4,6 +4,7 @@ public class Bun extends Entity{
 	
 	private double startingY;
 	private double startingX;
+	private int bunNumber;
 	public static final Point[] SHAPE = {
 		    new Point(25, 0),    new Point(0, 12),    new Point(0, 37), 
 		    new Point(0, 37),    new Point(25, 50),   new Point(100, 50),
@@ -12,7 +13,7 @@ public class Bun extends Entity{
 		};
 	public HotDog dog;
 	private final double SPEED = 8;
-	public Bun(Point inPosition, double inRotation) {
+	public Bun(Point inPosition, double inRotation, int bunNumber) {
 		super(SHAPE,inPosition,inRotation);
 		Point dogPos = new Point(inPosition.getX()+10,inPosition.getY()+12);
 		dog = new HotDog(dogPos,inRotation);
@@ -20,9 +21,17 @@ public class Bun extends Entity{
 		width = 65;
 		startingY = inPosition.getY();
 		startingX = inPosition.getX();
+		this.bunNumber = bunNumber;
+	}
+	public int getBunNumber() {
+		return bunNumber;
 	}
 	public double getStartingY() {
 		return startingY;
+	}
+	
+	public double getStartingX() {
+		return startingX;
 	}
 	
 	public void rotate(int angle) {
@@ -38,7 +47,19 @@ public class Bun extends Entity{
 	public int getDogNumPoints() {
 		return dog.getNumPoints();
 	}
-	class HotDog extends Entity implements Projectile{
+	
+	public boolean checkCollision() {
+		for (int i = 0; i < Player.lasers.size() ; i++) {
+			if(contains(Player.lasers.get(i).getPoints()[0])) {
+				Player.lasers.remove(i);
+				return true;
+				
+			}
+		}
+		return false;
+	}
+	
+	class HotDog extends Entity implements Moving {
 		private boolean launch;
 		public static final Point[] SHAPE = {
 				new Point(12, 12), new Point(112, 12),
@@ -77,11 +98,5 @@ public class Bun extends Entity{
 				reset();
 			}
 		}
-		
-		public void delete() {
-			
-			
-		}
-		
 	}
 }

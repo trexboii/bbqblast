@@ -7,8 +7,9 @@ NOTE: This class is the metaphorical "main method" of your program,
       it is your control center.
 
 */
+import javax.swing.JOptionPane;
+import java.util.Iterator;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import game.Player.Laser;
 
 class BbqBlast extends Game {
+	
 	static int counter = 0;
 	static int score = 0;
 	Player Ketchup = new Player(new Point(250,200),0.0);
@@ -63,14 +65,14 @@ class BbqBlast extends Game {
     	// counter is incremented and this message printed
     	// each time the canvas is repainted
     	counter++;
-    	brush.setColor(Color.black);
-    	brush.drawString("Counter is " + counter, 10, 30);
     	brush.setColor(Color.red);
+    	brush.drawString("Counter is " + counter, 10, 30);
     	Ketchup.move();
     	brush2.setStroke(new BasicStroke(3.0f));
-    	if(Ketchup.lasers.size() > 0) {
-    		for (Laser l1 : Ketchup.lasers) {
+    	if(Player.lasers.size() > 0) {
+    		for (Laser l1 : Player.lasers) {
     			brush.fillPolygon(l1.getXCoordinates(), l1.getYCoordinates(), l1.getNumPoints());
+    			l1.isOutOfBounds();
     		}
     	}
     	Ketchup.moveLasers();
@@ -81,7 +83,7 @@ class BbqBlast extends Game {
     	brush.drawPolyline(Ketchup.getXCoordinates(), Ketchup.getYCoordinates(), Ketchup.getNumPoints());
     	brush.setColor(Color.YELLOW);
     	
-    	if(counter%200==0){
+    	if(counter%100==0){
     		double side;
     		double yCor;
     		if(random.nextDouble()>0.5 && yCoorsLeft.size()>0) {
@@ -90,7 +92,7 @@ class BbqBlast extends Game {
     			yCor = yCoorsLeft.get(rand);
     			yCoorsLeft.remove(rand);
     			usedYCoorsLeft.add(yCor);
-    			buns.put("bun"+bunNumber, new Bun(new Point(side,yCor),0));
+    			buns.put("bun"+bunNumber, new Bun(new Point(side,yCor),0, bunNumber));
         		bunNumber++;
     			
     		}else if(yCoorsRight.size()>0){
@@ -99,7 +101,7 @@ class BbqBlast extends Game {
     			yCor = yCoorsRight.get(rand);
     			yCoorsRight.remove(rand);
     			usedYCoorsRight.add(yCor);
-    			buns.put("bun"+bunNumber, new Bun(new Point(side,yCor),180.0));
+    			buns.put("bun"+bunNumber, new Bun(new Point(side,yCor),180.0, bunNumber));
         		bunNumber++;
     		}
     		ArrayList<String> keys = new ArrayList<>(buns.keySet());
@@ -107,14 +109,40 @@ class BbqBlast extends Game {
     		String key = keys.get(rand);
     		buns.get(key).dog.launch();
     	}
-    	for (Bun b : buns.values()) {
-    		brush.setColor(Color.YELLOW);
-    		brush.fillPolygon(b.getXCoordinates(),b.getYCoordinates(),b.getNumPoints());
-    		brush.setColor(Color.RED);
-    		brush.fillPolygon(b.getDogXCoordinates(),
-    				b.getDogYCoordinates(),b.getDogNumPoints());
-    		b.dog.move();
+    	Iterator<Bun> bunIt = buns.values().iterator();
+    	while (bunIt.hasNext()) {
+    	    Bun b = bunIt.next();
+    	    brush.setColor(Color.YELLOW);
+    	    brush.fillPolygon(b.getXCoordinates(), b.getYCoordinates(), b.getNumPoints());
+    	    brush.setColor(Color.RED);
+    	    brush.fillPolygon(b.getDogXCoordinates(), b.getDogYCoordinates(), b.getDogNumPoints());
+    	    b.dog.move();
+    	    for(Point point : Ketchup.getPoints()) {
+    	    	if(b.dog.contains(point)) {
+    	    		 JOptionPane.showMessageDialog(null, "Score: " + score, "Game Over!", JOptionPane.INFORMATION_MESSAGE);
+    	    		 System.exit(0);;
+    	    	}
+    	    	
+    	    }
+
+    	    if (b.checkCollision()) {
+    	        score += 10;
+    	        double y = b.getStartingY();
+    	        if (b.getStartingX() == 0.0) {
+    	            usedYCoorsLeft.remove(Double.valueOf(y));
+    	            if (!yCoorsLeft.contains(y)) {
+    	                yCoorsLeft.add(y);
+    	            }
+    	        } else {
+    	            usedYCoorsRight.remove(Double.valueOf(y));
+    	            if (!yCoorsRight.contains(y)) {
+    	                yCoorsRight.add(y);
+    	            }
+    	        }
+    	        bunIt.remove();
+    	    }
     	}
+    	
     	
     	
   }
