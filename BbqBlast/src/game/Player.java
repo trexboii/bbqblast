@@ -7,15 +7,13 @@ import java.util.Iterator;
 
 public class Player extends Entity implements KeyListener, Moving{
 
-	public static final Point[] SHAPE = {new Point(25,0), new Point(35,40), new Point(50,40),
+	private static final Point[] SHAPE = {new Point(25,0), new Point(35,40), new Point(50,40),
 									new Point(50,70), new Point(50,100),
 									new Point(25,100), new Point(0,100), 
 									new Point(0, 70), new Point(0,40), 
 									new Point(15,40), new Point(25,0)};
 	
-	public static final double STEP_SIZE = 2;
-	
-	public boolean moveForward = false, moveBack = false, turnRight = false, turnLeft = false;
+	private boolean moveForward = false, moveBack = false, turnRight = false, turnLeft = false;
 	
 	public static ArrayList<Laser> lasers;
 
@@ -116,7 +114,7 @@ public class Player extends Entity implements KeyListener, Moving{
 	}
 	
 	public class Laser extends Entity implements Moving {
-		public static final Point[] SHAPE = {new Point(0,0), new Point(5,25), new Point(-5,25)};
+		private static final Point[] SHAPE = {new Point(0,0), new Point(5,25), new Point(-5,25)};
 		private int speed;
 		
 		public Laser(Point position, double rotation) {
